@@ -10,7 +10,7 @@ def request_process(event, client):
     if not event.get("channel") == settings.SLACK_CHANNEL_ID:
         client.rtm_send_message(
             event['channel'],
-            "Olha, não quero ser mal educado, mas só posso atender pelo canal especifico"
+            "Olha, não quero ser mal educado, mas só posso atender pelo canal <#{}>".format(settings.SLACK_CHANNEL_ID)
         )
 
         return
@@ -21,7 +21,15 @@ def request_process(event, client):
     if type_conversation is None:
         pass
     else:
+        answer_user, answer_log = get_answer_for_type(type_conversation, term=event['text'], message_user_id=event['user'])
+
         client.rtm_send_message(
             event['channel'],
-            get_answer_for_type(type_conversation, term=event['text'])
+            answer_user
         )
+
+        if answer_user and settings.SLACK_DEPLOY_CHANNEL_ID != "":
+            client.rtm_send_message(
+                settings.SLACK_DEPLOY_CHANNEL_ID,
+                answer_log
+            )

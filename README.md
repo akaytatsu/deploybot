@@ -27,6 +27,7 @@ edit this data:
 [settings]
 SLACK_BOT_TOKEN={SLACK BOT TOKEN}
 SLACK_CHANNEL_ID={CHANNEL CODE}
+SLACK_DEPLOY_CHANNEL_ID={CHANNEL DEPLOY CODE}
 RUNDECK_USER_NAME={RUNDECK USERNAME}
 RUNDECK_USER_PASS={RUNDECK PASSWORD}
 RUNDECK_URL={RUNDECK URL}
@@ -42,6 +43,14 @@ RUNDECK_URL={RUNDECK URL}
 * Copy de content "Bot User OAuth Access Token" (this is SLACK BOT TOKEN)
 
 ##### SlackBot Channel Code
+
+The code of channel is visible in URL:
+
+https://yourspace.slack.com/messages/**CEU7RU5A7**/details/
+
+##### SlackBot DEPLOY Channel Code
+
+if you get log for all requests, do you set this param.
 
 The code of channel is visible in URL:
 

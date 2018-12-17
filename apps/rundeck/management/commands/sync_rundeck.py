@@ -9,20 +9,23 @@ class Command(BaseCommand):
         print("Started Rundeck Sync")
 
         rundeckcli = RundeckClient()
-        list_jobs = rundeckcli.list_jobs()
+        list_projects = rundeckcli.list_projects()
 
-        for job_json in list_jobs:
-            try:
-                job = Jobs.objects.get(id=job_json.get("id"))
-            except Jobs.DoesNotExist:
-                job = Jobs()
+        for project in list_projects:
 
-            job.id = job_json.get("id")
-            job.name = job_json.get("name")
-            job.description = job_json.get("description")
-            job.enabled = job_json.get("enabled")
-            job.href = job_json.get("href")
-            job.permalink = job_json.get("permalink")
-            job.project = job_json.get("project")
-            job.save()
+            list_jobs = rundeckcli.list_jobs(project.get("name"))
 
+            for job_json in list_jobs:
+                try:
+                    job = Jobs.objects.get(id=job_json.get("id"))
+                except Jobs.DoesNotExist:
+                    job = Jobs()
+
+                job.id = job_json.get("id")
+                job.name = job_json.get("name")
+                job.description = job_json.get("description")
+                job.enabled = job_json.get("enabled")
+                job.href = job_json.get("href")
+                job.permalink = job_json.get("permalink")
+                job.project = job_json.get("project")
+                job.save()

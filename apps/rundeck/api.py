@@ -20,8 +20,15 @@ class RundeckClient():
 
         self.rundeckcli = client
 
-    def list_jobs(self):
-        response = self.rundeckcli.get(self.base_url + "/api/19/project/DEPLOY/jobs", headers={
+    def list_projects(self):
+        response = self.rundeckcli.get(self.base_url + "/api/19/projects", headers={
+            'Accept': "application/json"
+        })
+
+        return json.loads(response.text)
+
+    def list_jobs(self, project_name):
+        response = self.rundeckcli.get(self.base_url + "/api/19/project/{}/jobs".format(project_name), headers={
             'Accept': "application/json"
         })
 
@@ -32,6 +39,15 @@ class RundeckClient():
         url = "/api/19/job/{}/run".format(job_id)
 
         response = self.rundeckcli.post(self.base_url + url, headers={
+            'Accept': "application/json"
+        })
+
+        return json.loads(response.text)
+
+    def get_job_status(self, job_id):
+        url = "/api/19/execution/{}".format(job_id)
+
+        response = self.rundeckcli.get(self.base_url + url, headers={
             'Accept': "application/json"
         })
 
