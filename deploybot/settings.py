@@ -26,7 +26,7 @@ SECRET_KEY = '@v$lgcnd!dq#7)!=a295qupm$k)q2)k2s6@-jua1ep#3@9dvm8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -82,9 +82,13 @@ WSGI_APPLICATION = 'deploybot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': config('DB_HOST', default='localhost'),
+        'NAME': config('DB_NAME', default='deploybot'),
+        'PORT': config('DB_PORT', default='5432'),
+        'USER': config('DB_USER', default='root'),
+        'PASSWORD': config('DB_USER_PASSWORD', default='root'),
+    },
 }
 
 
@@ -125,6 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 
 SLACK_BOT_TOKEN=config('SLACK_BOT_TOKEN', '')
 SLACK_CHANNEL_ID=config('SLACK_CHANNEL_ID', '')

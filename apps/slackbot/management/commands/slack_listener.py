@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         print("Started listener event")
         client = SlackClient(settings.SLACK_BOT_TOKEN)
-        if client.rtm_connect():
+        if client.rtm_connect(auto_reconnect=True):
             while True:
                 events = client.rtm_read()
                 for event in events:
